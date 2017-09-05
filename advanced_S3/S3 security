@@ -19,6 +19,7 @@ S3 security:
   cannot be used to grant anonymous access since they apply directly to users
   cannot grant to top user. such as root user.
   no applied by default
+  can explicity deny access and grant additional permission and limited to 20KB
 
 
 which polices should use?
@@ -57,4 +58,14 @@ the following is some canned ACL list:
 
 for example:
 aws s3 cp a.txt s3://xxxxx/xxxx --acl public-read
+
+
+bucket or user based policy:
+policy elements:
+1 principle: the account or user that is allowed access to the actions and resources specified in the statement
+2 effect-- the effect taken when the user requests the action. either "allow" or "deny"
+3 action-- the list of permission to allow or deny
+4 resource--the bucker or object for which the access applies to. specified as ARN amazon resource name
+5 sid-- not required for S3. generally used as a description of the policy statement
+Note: user policies do not have a principle in the statement because the principle is the user whom executes the policy
 
