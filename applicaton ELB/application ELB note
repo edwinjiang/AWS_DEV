@@ -1,0 +1,126 @@
+Application ELB:
+
+1 path-based routing
+2 containerrized application support
+3 http/http/2 and https support
+4 websocket support
+5 sticky session and health check
+6 high availability
+7 accsss logs
+
+pricing:
+
+1 per hour your application load balancer is running
+2 per number of used load balance capacity units(LCU)
+  new connection: 1LCU = 25 new connection per second
+  active connection = 1LCU = 3000 active connections per minute
+  bandwidth: 1LCU = 2.22 Mbps
+  
+you are charged only on the dimension with the hightest usage
+
+for example:
+ALB runs for 1 month
+1 new connection / sec
+connection last on average for 500 ms
+300 KB transfer/connection
+
+ALB hour: 30*24=720 hours
+new connection: 1/25 = 0.04 LCU
+active connection :  0,5*60/3000 = 0.01 LCU
+bandwidth:  300 * 1024*8/1000/1000*0.5= 0.55 LCU
+
+total : 720*$0.0255+0.55*$0.008 = $16.20
+
+
+ALB routes traffic to target groups , which a collection of backends. such as EC2 or container. the security group must match with the listener configuration
+
+EC2 with ALB:
+setting up security group for EC2 instance behind ALB
+Target group is a collection of targets (e.g EC2 instance)
+registering and deregistering EC2 instance at target group manully
+combing auto scaling group and ALB to automate EC2 instance launch
+the security group of EC2 source should be from load balance.  the load balance security group allow http traffic on 80 port from anywhere.
+
+auto scaling:
+
+automation:  launching one or more EC2 instance in an automated way
+scaleability: adjusting number of EC2 instance to current workload
+availiability: replacing failed EC2 instance automatically
+
+need create auto scaling group first
+
+if want auto scaling automatically replace failed EC2 instance, the scaling group health check type should be 'ELB' intead of 'EC2'
+
+path-based routing:
+for example:
+httpd service:
+one EC2 instance use /var/www/html/hello/index.html
+one EC2 instance use /var/www/html/good/index.html
+load balance can forward http reqiests to specific EC2 instance according to different request path
+
+
+create two target group  :  based on different http path
+in load balance listener, create two load balance listener rule:  based on different http path  "path pattern" refer to different path .
+
+add each EC2 instance to each target group accoding to different path
+
+
+curl -v xxxx/hello/
+curl -v xxxxx/good/
+
+
+
+
+
+
+
+
+
+
+
+EC2 container with ALB:
+EC2 container Service:   managing docker containers on EC2.combing mu;tiple EC2 instance to an ECS cluster.
+                         scheduling the placement of containers:
+                           resource needs
+                           isolation policies
+                           availability requirements
+
+                          
+Componenets:
+ECS cluster
+  EC2 instance
+    EC2 task
+
+ECS service:
+  task definition
+  service description
+
+get started with ECS
+1 create an ECS cluster, also need to create new IAM role based on ECS policy.
+
+2 launch EC2 instance  select amazon-ecs AMI to launch EC2 instance insteand of standard AWS EC2 type
+  
+  
+  
+3 install and configure ECS agent on EC2 instance
+  in advanced details, input the following script which be needed execute in EC2 instance
+  echo ECS_CLUSTER=acloudguru >> /etc/ecs/ecs.config
+  
+  create new security group. 'ALL TCP'  source is from ALB traffic
+
+4 create a task definition
+  container image: for example:  widdix/hello:v1
+  
+5 create a service
+  refer task definition
+  type service name
+ 
+
+
+ALB monitoring:
+1 cloudwatch metrics and alarms:
+
+2 access.log
+  when enabled access log, it will be stored in S3.  can be downloaded to local for analyze
+  aws s3 sync s3://xxxxx .
+  
