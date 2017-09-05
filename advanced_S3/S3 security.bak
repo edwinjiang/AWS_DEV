@@ -1,0 +1,60 @@
+S3 security:
+
+1 resource based policies:
+  two types of resource based policies:
+     Access control List
+       grant read/write permission on objects and buckets to AWS account and predefined groups
+       use an XML schema
+       consist of a list of grants identifying the grantee and the permission
+     bucket policies
+        grant permission for the bucket and objects within to AWS account and IAM users
+        expressed with JSON
+        can be used to grant fine-granted permissions
+        no applied by default
+
+2 User policies:
+  applied directly to users,groups or roles using AWS IAM
+  can be used to grant fine-granted permission
+  express using JSON
+  cannot be used to grant anonymous access since they apply directly to users
+  cannot grant to top user. such as root user.
+  no applied by default
+
+
+which polices should use?
+
+in most cases, the prefered method of granting access is either via a user policy or bucket policy as these are able to grant much finer permissions than ACL's
+the choice of which to use is really down to personal preference
+
+however, there are siturations in which certain policies must be used:
+ ACL's
+   to manage access to objects not owned by the bucket owner
+   to manage access to individual objects when permissions must vary between objects
+   to grant permission to the 'S3 log delivery group' on a bucket
+ bucket's
+   to grant cross account access permissions that can't be granted via an ACL
+
+
+ACL note:
+
+grant to bucket or objects, can be used only to grant permission to AWS account and pre-defined group
+can only grant basic read/write permission
+can not grant conditional or deny permission
+
+ACL Features:
+  defined using XML
+  
+canned ACL are commonly used when using the CLI
+the following is some canned ACL list:
+1 private      owner get full control,no access to anyone else
+2 public-read  owner get full control, the allusers group gets read
+3 public-read-write owner get full control, the allusers group gets read and write
+4 aws-exec-read   owner get full control,aws EC2 get read access to get an AMI from S3
+5 authenticated-read  owner get full control, authenticate user group get read
+6 bucket-owner-read   object owner get full control, the bucket owner get read
+7 bucker-owner-full-control, object and bucker owner get full contrl
+8 log-delivery-write   the logdelivery group gets write and read_acp access to the bucket
+
+for example:
+aws s3 cp a.txt s3://xxxxx/xxxx --acl public-read
+
