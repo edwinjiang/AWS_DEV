@@ -62,10 +62,25 @@ aws s3 cp a.txt s3://xxxxx/xxxx --acl public-read
 
 bucket or user based policy:
 policy elements:
-1 principle: the account or user that is allowed access to the actions and resources specified in the statement
+1 principle: the account or user that is allowed or deny access to the resources specified in the statement
+  only applied in bucket policy
+  specified as a name/value pair
+  
 2 effect-- the effect taken when the user requests the action. either "allow" or "deny"
 3 action-- the list of permission to allow or deny
 4 resource--the bucker or object for which the access applies to. specified as ARN amazon resource name
 5 sid-- not required for S3. generally used as a description of the policy statement
 Note: user policies do not have a principle in the statement because the principle is the user whom executes the policy
+
+grant fine grained access:
+48 permission in total covering objects,buckets and subresources
+
+
+condition permission:
+additional, optional policy elements that allow you to specify the condition for when a policy is in place
+example:
+allow a user to put an object but only if the object is uploaded with S3 encryption enabled
+allow user to delete an object but only if they use multi-factor authentication to do so
+allow user to create a bucket but only in a specified region
+
 
