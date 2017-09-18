@@ -1,0 +1,27 @@
+Kinesis:
+
+Enable you to build application that process or analyze streaming data for specialized needs. you can continuously add various types of data. such as clickstrams,application
+logs, and social media to an kinesus stram from hundreds of thousands of sources, within seconds the data will be available for your kinesis application to read and process from the stream
+
+data in kinesis is stored for 24 hours by default, you can increase this to 7 days if required
+
+  Shard:
+    a shard is simply the unit of measurement of data when refering to kinesis.
+    one shard provides a capacity of 1MB/sec data put and 2MB/sec data output. one shard can support up to 1000 put records per second. you can dynamically add or remove shards from your stram
+    as your data throughput changes via resharding
+    
+  Partition key:
+    can consis of mang different shards, you can group the data by shard by using a partition key. Essentially, the partition key tells you which shard the data belongs to, a partiton key
+    is specified by the applications putting the data into a stream
+  
+  Sequence number:
+  each data records has a unique sequence number, think of it as a unique key. the sequence number is assigned by streams after you write to the stream with client putrecord or client putrecords
+  
+  you can't use sequence numbers to logically separate data in terms of what shards they have come from. you can only do this using partition key
+  
+  Blobs:
+  are the data your data producer adds to a stream. the maximum size of a data blob is 1 MB
+  
+  
+  use S3,redshift to store processed data for longer term. kinesis stremas is not persistent
+  

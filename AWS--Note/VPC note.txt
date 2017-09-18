@@ -1,0 +1,8 @@
+VPC exam tip:
+
+think of VPC as a logical datacenter in AWS
+consists of IGW's or virtual private gateways, route tables, netwirk access control list, subnets,security groups
+1 subnets = 1 availability zone  so you can not span your subnet across multiple availability zones
+
+security grups are stateful, network access control list are stateless
+no transitive peering

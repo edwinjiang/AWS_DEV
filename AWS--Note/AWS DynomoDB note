@@ -1,0 +1,51 @@
+DynomoDB AWS  note
+
+pip install aws
+pip install tqdm
+pip install boto3
+pip install fake-factory
+pip install multiprocessing   need to download and install c++ compile for python
+
+
+install atom editor
+
+AWS edwinuser:
+
+
+access key id:AKIAJ7ZKL7GGFDJJ33QQ
+access key:29bFgYmFOOInBeS/mmjhX9XGA42DEDWitXzSP9z2
+regin: ap-southeast-1 
+
+
+DynamoDB  consistency Model:
+1 SSD storage
+2 consistent, reliable low latency read and write
+3 every data block is stored three times
+4 data write requestd
+5 backgroud full sync occurs
+
+DynamoDB instruction:
+1 is a collection of TABLE
+2 tables are the highest level structure within a database
+3 performance is managed at a table level
+4 dynamoDB uses the performance directive and the data model to manage underlying resource provisioning
+5 important:  unlike SQL database, the schema can be changed at table level in DynomaDB
+
+Table contain Items and item contain attributes
+
+has partiton key(Hash key)
+    sort key  (range key)
+    
+has three data types:
+  scalar:
+    string, number binary and booleab
+  set
+    string set, number set, binary set
+  document:
+    list: test:["a","b"]
+    MAP(json)
+
+DynamoDB consistency model:
+
+there has three replicas for each record, when write data into table, it will write to three replicas. client will receive OK feedback only two 
+replicas are updated.
